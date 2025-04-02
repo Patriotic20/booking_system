@@ -10,7 +10,7 @@ from src.core.config import settings
 from src.models.user import User
 from src.core.base import get_db  
 from typing import List , Callable
-
+import re
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated = "auto")
@@ -49,13 +49,13 @@ async def verify_token(token: str, secret_key: str):
 
 
 async def get_user(db: AsyncSession, username: str):
-    result = await db.execute(select(User).filter(User.username == username))
+    result = await db.execute(select(User).filter(User.phone_number == username))
     return result.scalar_one_or_none()
 
 
 async def authenticate_user(db: AsyncSession, username: str, password: str):
     user = await get_user(db, username)
-    if not user or not await verify_password(password, user.hashed_password):
+    if not user or password != user.password:
         return None
     return user
 
@@ -87,3 +87,5 @@ def check_user_role(allowed_roles: List[str]) -> Callable:
             )
         return user_info  
     return role_checker 
+
+
