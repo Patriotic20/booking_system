@@ -11,8 +11,11 @@ class UserBase(BaseModel):
     street: str | None = Field(None , min_length=3)
     flat : str | None = Field(None , min_length=1)
     home_number : str |None = Field(None)
-    role: UserRole
 
+
+
+class UserOwner(UserBase):
+    role: UserRole
 
 class UserCrate(UserBase):
     password: str
@@ -20,7 +23,11 @@ class UserCrate(UserBase):
 
 
 class UserUpdate(BaseModel):
-    phone_number : str | None = None 
+    id: int
+    phone_number : str = Field(
+        ... ,
+        pattern=r"^\+998 \d{2} \d{3} \d{2} \d{2}"
+    )
     city : str | None = None
     street: str | None = None
     flat : str | None = None

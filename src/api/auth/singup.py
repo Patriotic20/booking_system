@@ -5,7 +5,7 @@ from src.core.base import get_db
 from src.schemas.user import UserCrate
 from sqlalchemy.exc import SQLAlchemyError
 from src.models.user import User
-from src.utils.auth import get_user , hash_password
+from src.utils.auth import get_user 
 
 
 signup_router = APIRouter()
