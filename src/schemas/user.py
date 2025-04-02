@@ -1,16 +1,17 @@
-from pydantic import BaseModel , field_validator
+from pydantic import BaseModel , Field
 from datetime import datetime
-import asyncio
-from passlib.context import CryptContext
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated = "auto")
+from src.models.user import UserRole
 
 class UserBase(BaseModel):
-    phone_number : str
+    phone_number : str = Field(
+        ...,
+        pattern = r"^\+998 \d{2} \d{3} \d{2} \d{2}$"
+    )
     city : str
-    street: str
-    flat : str
-    home_number : str
+    street: str | None = Field(None , min_length=3)
+    flat : str | None = Field(None , min_length=1)
+    home_number : str |None = Field(None)
+    role: UserRole
 
 
 class UserCrate(UserBase):
