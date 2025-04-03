@@ -5,7 +5,6 @@ from sqlalchemy.exc import SQLAlchemyError
 from src.core.base import get_db
 from src.schemas.user import UserOwner
 from src.models import User
-from src.utils.store import get_existing_by_name  
 from src.utils.auth import check_user_role
 
 create_router = APIRouter()
@@ -17,8 +16,10 @@ async def create_user(
     db: AsyncSession = Depends(get_db)
 ):
     try:
-        
-        existing_user = await get_existing_by_name(db=db, model=User, name=user_item.phone_number)
+        result = await db.execute(select(User).where(User.phone_number == user_item.phone_number))
+        existing_user = result.scalars().first()
+
+
         if existing_user:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,

@@ -1,6 +1,8 @@
-from sqlalchemy import Column , String , Integer , Enum , DateTime
+from sqlalchemy import Column , String , Integer , Enum , DateTime 
+from sqlalchemy.orm import relationship
 from src.core.base import Base
 from datetime import datetime
+from src.models.store_user import user_store_association
 import enum
 
 class UserRole(enum.Enum):
@@ -23,3 +25,6 @@ class User(Base):
     flat = Column(String , nullable=True)
     home_number = Column(String , nullable=True)
     create_at = Column(DateTime , default=datetime.now)
+
+    store = relationship("Store" , secondary=user_store_association , back_populates="users")
+
