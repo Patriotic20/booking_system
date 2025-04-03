@@ -26,5 +26,5 @@ class User(Base):
     home_number = Column(String , nullable=True)
     create_at = Column(DateTime , default=datetime.now)
 
-    store = relationship("Store" , secondary=user_store_association , back_populates="users")
+    stores = relationship("Store" , secondary=user_store_association , back_populates="users")
 

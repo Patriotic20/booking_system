@@ -13,4 +13,4 @@ class Store(Base):
     description = Column(String , nullable=False)
     liter_price = Column(JSONB , nullable=False)
     
-    user = relationship("User" , secondary=user_store_association , back_populates='stores')
+    users = relationship("User" , secondary=user_store_association , back_populates='stores')

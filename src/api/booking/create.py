@@ -1,9 +1,10 @@
 from fastapi import APIRouter , Depends  , HTTPException , status
 from src.core.base import get_db
+from sqlalchemy import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.schemas.booking import BookingCreate
-from src.models import Booking , User 
-from src.utils.auth import get_current_user
+from src.models import Booking , User  
+from src.utils.auth import get_current_user 
 from sqlalchemy.exc import SQLAlchemyError
 
 

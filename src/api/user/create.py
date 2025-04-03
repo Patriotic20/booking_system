@@ -1,11 +1,12 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.exc import SQLAlchemyError
 from src.core.base import get_db
 from src.schemas.user import UserOwner
-from src.models import User
+from src.models import User 
 from src.utils.auth import check_user_role
+
 
 create_router = APIRouter()
 
@@ -25,11 +26,9 @@ async def create_user(
                 status_code=status.HTTP_409_CONFLICT,
                 detail=f"User with phone number {user_item.phone_number} already exists."
             )
-        
-        
+                
         new_user = User(**user_item.model_dump(exclude_unset=True))
         db.add(new_user)
-
         await db.commit()
         await db.refresh(new_user)  
 
